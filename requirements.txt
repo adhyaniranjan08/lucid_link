@@ -1,0 +1,27 @@
+# Core ML
+torch>=2.0.0
+numpy>=1.24.0
+scipy>=1.10.0
+scikit-learn>=1.3.0
+
+# EEG-specific
+mne>=1.4.0          # For reading EDF files and EEG processing
+
+# Data handling
+pandas>=2.0.0
+h5py>=3.8.0         # For HDF5 dataset files
+
+# Visualization & Dashboard
+streamlit>=1.28.0
+matplotlib>=3.7.0
+plotly>=5.15.0
+seaborn>=0.12.0
+
+# Utilities
+tqdm>=4.65.0        # Progress bars
+pyyaml>=6.0         # Config files
+joblib>=1.3.0       # Model saving
+
+# Optional (for notebook)
+jupyter>=1.0.0
+ipykernel>=6.0.0

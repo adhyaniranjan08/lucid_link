@@ -1,0 +1,56 @@
+# =============================================================
+# EEG Dream Detection System - Configuration
+# =============================================================
+
+# ── Preprocessing ─────────────────────────────────────────────
+preprocessing:
+  sample_rate: 100          # Hz (Sleep-EDF is sampled at 100 Hz)
+  dream_sample_rate: 128    # Hz (EEG-ImageNet is sampled at 128 Hz)
+  bandpass_low: 1.0         # Hz - lower cutoff
+  bandpass_high: 40.0       # Hz - upper cutoff
+  epoch_duration: 30        # seconds per sleep epoch
+  dream_epoch_duration: 1   # seconds per dream epoch
+  artifact_threshold: 100   # µV - epochs with amplitude > this are rejected
+
+# ── Sleep Stage Model (DenseSleepNet) ─────────────────────────
+sleep_model:
+  n_channels: 2             # EEG channels (Fpz-Cz and Pz-Oz in Sleep-EDF)
+  n_classes: 5              # W, N1, N2, N3, REM
+  class_names: ["Wake", "N1", "N2", "N3", "REM"]
+  sequence_length: 21       # Number of consecutive epochs (context window)
+  d_model: 64               # Transformer embedding dimension
+  n_heads: 4                # Attention heads
+  n_layers: 4               # Transformer blocks
+  dropout: 0.1
+
+# ── Dream Content Model (EEGNet) ──────────────────────────────
+dream_model:
+  n_channels: 14            # EEG channels
+  n_classes: 6              # Visual categories
+  class_names: ["Face", "Object", "Animal", "Scene", "Text", "Movement"]
+  temporal_length: 128      # Samples per epoch (1s at 128 Hz)
+  F1: 8                     # Number of temporal filters
+  D: 2                      # Depth multiplier
+  F2: 16                    # Number of pointwise filters
+  dropout: 0.5
+  kernel_length: 64         # Temporal filter kernel size
+
+# ── Training ──────────────────────────────────────────────────
+training:
+  batch_size: 32
+  epochs: 50
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  patience: 10              # Early stopping patience
+  val_split: 0.2
+  test_split: 0.1
+  seed: 42
+
+# ── Paths ─────────────────────────────────────────────────────
+paths:
+  raw_sleep_edf: "data/raw/sleep_edf"
+  raw_eeg_imagenet: "data/raw/eeg_imagenet"
+  processed: "data/processed"
+  models: "models/saved"
+  checkpoints: "models/checkpoints"
+  logs: "logs"
